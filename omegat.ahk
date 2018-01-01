@@ -6,6 +6,18 @@ Loop, target\*.htm,, 1
 {
     FileRead, content_orig, % A_LoopFileLongPath
     content := content_orig
+    
+    ; skip sites
+    
+    if (A_LoopFileFullPath ~= "target\\(iframe|search)\.htm")
+      continue
+
+    ; add more infos about the translation 
+
+    if (A_LoopFileFullPath = "target\AutoHotkey.htm")
+    {
+        content := RegExReplace(content, "<p><a.*?</a></p>", "<p>Eine deutsche &Uuml;bersetzung von <a href=""https://lexikos.github.io/v2/docs/"">https://lexikos.github.io/v2/docs/</a> (siehe <a href=""https://autohotkey.com/boards/viewtopic.php?f=9&amp;t=43"">hier</a> f&uuml;r mehr Details).</p>")
+    }
 
     ; add google analytics
 
@@ -43,9 +55,9 @@ Loop, target\*.htm,, 1
     
 }
 
-; restore own CreateFiles4Help.ahk due to the difference in folder structure
+; create search index
 
-;~ RunWait, % "git checkout -- CreateFiles4Help.ahk", % A_ScriptDir "/target/static/source"
+RunWait, % A_AhkPath "/../v2-alpha/x86/AutoHotkey.exe" " """ A_ScriptDir "/target/static/source/build_search.ahk"""
 
 ; compile docs to chm
 

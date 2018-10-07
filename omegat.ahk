@@ -4,12 +4,13 @@ SetWorkingDir, % A_ScriptDir
 
 Loop, target\*.htm,, 1
 {
+    FileEncoding, UTF-8-RAW
     FileRead, content_orig, % A_LoopFileLongPath
     content := content_orig
     
     ; skip sites
     
-    if (A_LoopFileFullPath ~= "target\\(iframe|search)\.htm")
+    if (A_LoopFileFullPath ~= "target\\search\.htm")
       continue
 
     ; add more infos about the translation 
@@ -57,7 +58,7 @@ Loop, target\*.htm,, 1
 
 ; create search index
 
-RunWait, % A_AhkPath "/../v2-alpha/x86/AutoHotkey.exe" " """ A_ScriptDir "/target/static/source/build_search.ahk"""
+RunWait, % A_AhkPath "/../v2-alpha/AutoHotkeyU32.exe" " """ A_ScriptDir "/target/static/source/build_search.ahk"""
 
 ; compile docs to chm
 
